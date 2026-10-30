@@ -1,7 +1,8 @@
-
 import streamlit as st
-import pymupdf
 from pathlib import Path
+
+from pdf_service import extract_text_from_pdf
+
 
 st.set_page_config(
     page_title="FormWeave AI",
@@ -30,11 +31,7 @@ if uploaded_file:
 
     try:
         pdf_bytes = uploaded_file.getvalue()
-
-        with pymupdf.open(stream=pdf_bytes, filetype="pdf") as pdf:
-            extracted_text = "\n".join(
-                page.get_text() for page in pdf
-            )
+        extracted_text = extract_text_from_pdf(pdf_bytes)
 
         if extracted_text.strip():
             st.subheader("Extracted PDF Text")
