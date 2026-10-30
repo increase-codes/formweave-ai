@@ -39,8 +39,7 @@ if uploaded_file:
 
     try:
         pdf_bytes = uploaded_file.getvalue()
-        extracted_text = extract_text_from_pdf(pdf_bytes)3
-        
+        extracted_text = extract_text_from_pdf(pdf_bytes)
 
         if extracted_text.strip():
             st.subheader("Extracted PDF Text")
@@ -66,11 +65,37 @@ if uploaded_file:
                                 field.label,
                                 key=field.name,
                             )
+
                         elif field.field_type == "checkbox":
                             answers[field.name] = st.checkbox(
                                 field.label,
                                 key=field.name,
                             )
+
+                        elif field.field_type == "date":
+                            answers[field.name] = st.date_input(
+                                field.label,
+                                value=None,
+                                key=field.name,
+                            )
+
+                        elif field.field_type == "number":
+                            answers[field.name] = st.number_input(
+                                field.label,
+                                value=None,
+                                step=1,
+                                key=field.name,
+                            )
+
+                        elif field.field_type == "select":
+                            answers[field.name] = st.selectbox(
+                                field.label,
+                                options=field.options,
+                                index=None,
+                                placeholder="Choose an option",
+                                key=field.name,
+                            )
+
                         else:
                             answers[field.name] = st.text_input(
                                 field.label,
